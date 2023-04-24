@@ -21845,7 +21845,7 @@
     Object.defineProperty(exports, "__esModule", ({ value: true }));
     exports.prepareEnvironment = exports.getCliVersionURL = exports.getCliPlatform = exports.getDownloadURL = void 0;
     const core = __importStar(__nccwpck_require__(2186));
-    const exec = require('child_process');
+    const exec = __importStar(__nccwpck_require__(1514));
     const path = __importStar(__nccwpck_require__(1017));
     const tc = __importStar(__nccwpck_require__(7784));
     const xmldom_1 = __nccwpck_require__(9213);
