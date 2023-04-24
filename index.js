@@ -21780,7 +21780,7 @@
                     core.warning(`Your \`sonar.projectKey\` does not follow the recommended naming convention, expected: ${owner}.${repo}:<package_name>.`);
                 }
                 yield (0, environment_1.prepareEnvironment)();
-                yield (0, scan_1.scan)();
+                //yield (0, scan_1.scan)();
             }
             catch (ex) {
                 core.setFailed(ex.message);
@@ -21788,6 +21788,10 @@
         });
     }
     run();
+    const options = {};
+    options.shell = '/bin/bash'
+    require('child_process').execSync("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86 --out-dir build_wrapper_output_dir conan build hellopkg" , options);
+    require('child_process').execSync("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner -Dproject.settings=sonar-project.properties", options);
     
     
     /***/ }),
@@ -21842,7 +21846,7 @@
     Object.defineProperty(exports, "__esModule", ({ value: true }));
     exports.prepareEnvironment = exports.getCliVersionURL = exports.getCliPlatform = exports.getDownloadURL = void 0;
     const core = __importStar(__nccwpck_require__(2186));
-    const exec = __importStar(__nccwpck_require__(1514));
+    const exec = require('child_process');
     const path = __importStar(__nccwpck_require__(1017));
     const tc = __importStar(__nccwpck_require__(7784));
     const xmldom_1 = __nccwpck_require__(9213);
