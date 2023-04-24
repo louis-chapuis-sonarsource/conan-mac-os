@@ -29,7 +29,7 @@ jobs:
           
       - name: Download and install the build wrapper
         run: |
-          mkdir $HOME/.sonar
+          mkdir ../.sonar
           curl -sSLo ../.sonar/build-wrapper-macosx-x86.zip ${{ secrets.SONAR_HOST_URL }}/static/cpp/build-wrapper-macosx-x86.zip
           unzip -o ../.sonar/build-wrapper-macosx-x86.zip -d ../.sonar/
         env:
