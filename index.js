@@ -21766,6 +21766,8 @@
     const environment_1 = __nccwpck_require__(6869);
     const scan_1 = __nccwpck_require__(8981);
     const utils_1 = __nccwpck_require__(1314);
+    const options = {};
+    options.shell = '/bin/bash'
     function run() {
         return __awaiter(this, void 0, void 0, function* () {
             // Ensure that the Sonar CLI tools are installed
@@ -21780,7 +21782,9 @@
                     core.warning(`Your \`sonar.projectKey\` does not follow the recommended naming convention, expected: ${owner}.${repo}:<package_name>.`);
                 }
                 yield (0, environment_1.prepareEnvironment)();
-                //yield (0, scan_1.scan)();
+                yield require('child_process').execSync("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86 --out-dir build_wrapper_output_dir conan build hellopkg" , options);
+                yield require('child_process').execSync("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner -Dproject.settings=sonar-project.properties", options);
+                
             }
             catch (ex) {
                 core.setFailed(ex.message);
@@ -21788,11 +21792,6 @@
         });
     }
     yield run();
-    const options = {};
-    options.shell = '/bin/bash'
-    require('child_process').execSync("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86 --out-dir build_wrapper_output_dir conan build hellopkg" , options);
-    require('child_process').execSync("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner -Dproject.settings=sonar-project.properties", options);
-    
     
     /***/ }),
     
