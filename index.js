@@ -22037,7 +22037,7 @@
     const exec = require('child_process');
     const github = __importStar(__nccwpck_require__(5438));
     const os_1 = __nccwpck_require__(2037);
-    const utils_1 = __nccwpck_require__(1314);
+    //const utils_1 = __nccwpck_require__(1314);
     const sonarqube_api_1 = __nccwpck_require__(2549);
     let errorMessage = '';
     const options = {};
@@ -22082,21 +22082,6 @@
             }
             core.setOutput('project-name', project_name);
             core.endGroup();
-            try {
-                // Only create annotations on pull requests
-                if (github.context.payload.pull_request) {
-                    yield emitAnnotations();
-                }
-            }
-            catch (e) {
-                core.error('Error while processing annotations');
-                if (typeof e === 'string') {
-                    core.error(e);
-                }
-                else if (e instanceof Error) {
-                    core.error(e.message);
-                }
-            }
             console.log('✅ Scan performed successfully!');
     }
     exports.scan = scan;
