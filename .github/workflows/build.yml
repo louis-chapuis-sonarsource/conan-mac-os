@@ -43,7 +43,6 @@ jobs:
       - name: Run BW
         run: |
           conan install hellopkg
-          ../.sonar/build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output conan build hellopkg
           npm install @actions/exec
           npm install buffer
 
