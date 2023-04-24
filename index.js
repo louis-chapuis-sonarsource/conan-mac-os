@@ -20378,7 +20378,7 @@
     }
     
     function isASCIIAlphanumeric(c) {
-      return isASCIIAlpha(c) || isASCIIDigit(c);
+      return isASCIIAlpha(c) || isASCIIDigit(c);cp
     }
     
     function isASCIIHex(c) {
@@ -22034,7 +22034,7 @@
     exports.scan = void 0;
     const core = __importStar(__nccwpck_require__(2186));
     //const exec = __importStar(__nccwpck_require__(1514));
-    const exec = require('@actions/exec');
+    const exec = require('child_process');
     const github = __importStar(__nccwpck_require__(5438));
     const os_1 = __nccwpck_require__(2037);
     const utils_1 = __nccwpck_require__(1314);
@@ -22072,8 +22072,8 @@
                 (0, utils_1.setProperty)(sonar_properties, 'sonar.cfamily.threads', String((0, os_1.cpus)().length));
                 core.startGroup('🎁 Run command within the Build Wrapper');
                 try {
-                    exec.execSync("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86", ['--out-dir', utils_1.BUILD_WRAPPER_OUTPUT_DIR].concat(build_wrapper.split(' ')), options);
-                    exec.execSync("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner", [`-Dproject.settings=${sonar_properties}`], options);
+                    exec.execSync("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86 --out-dir build_wrapper_output_dir conan build hellopkg" , options);
+                    exec.execSync("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner -Dproject.settings=sonar-project.properties", options);
                 }
                 catch (_a) {
                     (0, utils_1.handleScanError)(errorMessage);
