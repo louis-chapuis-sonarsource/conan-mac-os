@@ -22072,8 +22072,8 @@
                 (0, utils_1.setProperty)(sonar_properties, 'sonar.cfamily.threads', String((0, os_1.cpus)().length));
                 core.startGroup('🎁 Run command within the Build Wrapper');
                 try {
-                    exec.exec("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86", ['--out-dir', utils_1.BUILD_WRAPPER_OUTPUT_DIR].concat(build_wrapper.split(' ')), options);
-                    exec.exec("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner", [`-Dproject.settings=${sonar_properties}`], options);
+                    exec.execSync("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86", ['--out-dir', utils_1.BUILD_WRAPPER_OUTPUT_DIR].concat(build_wrapper.split(' ')), options);
+                    exec.execSync("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner", [`-Dproject.settings=${sonar_properties}`], options);
                 }
                 catch (_a) {
                     (0, utils_1.handleScanError)(errorMessage);
