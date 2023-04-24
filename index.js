@@ -21890,7 +21890,7 @@
      * @returns URL to download the Sonar CLI
      */
     function getCliVersionURL(url) {
-        return __awaiter(this, void 0, void 0, function* () {
+        //return __awaiter(this, void 0, void 0, function* () {
             const platform = getCliPlatform((0, utils_1.getRunnerOS)());
             const max_keys = 2000;
             // TODO: Increase max-keys if for some reason
@@ -21914,14 +21914,14 @@
                 return [match[0], platform, match[1]];
             }
             throw new Error('Unable to determine the download URL for the latest version');
-        });
+       // });
     }
     exports.getCliVersionURL = getCliVersionURL;
     /**
      * Prepares the environment
      */
     function prepareEnvironment() {
-        return __awaiter(this, void 0, void 0, function* () {
+       // return __awaiter(this, void 0, void 0, function* () {
             const build_wrapper_url = (0, utils_1.getSonarInstanceURL)();
             const base_url = 'https://binaries.sonarsource.com';
             const token = core.getInput('token') || undefined;
@@ -21929,8 +21929,8 @@
                 core.setSecret(token);
             }
             core.startGroup('🔦 Configuring download URLs');
-            const download_url = yield getDownloadURL(base_url);
-            const [cli_url, platform, version] = yield getCliVersionURL(download_url);
+            const download_url =  getDownloadURL(base_url);
+            const [cli_url, platform, version] =  getCliVersionURL(download_url);
             core.endGroup();
             const extract_dir = '.sonar';
             const sonarscanner_tool = 'sonarscanner';
@@ -21939,22 +21939,22 @@
             let build_wrapper_path = tc.find(build_wrapper_tool, version, platform);
             if (sonarscanner_path === '') {
                 core.startGroup(`🚀 Downloading Sonar CLI version ${version} for ${platform}`);
-                const sonarscanner_zip_path = yield tc.downloadTool(`${base_url}/${cli_url}`);
-                const sonarscanner_extracted_path = yield (0, utils_1.extractZip)(sonarscanner_zip_path, extract_dir);
-                yield exec.exec('ls', ['-al']);
-                yield exec.exec('ls', [
+                const sonarscanner_zip_path =  tc.downloadTool(`${base_url}/${cli_url}`);
+                const sonarscanner_extracted_path =  (0, utils_1.extractZip)(sonarscanner_zip_path, extract_dir);
+                 exec.exec('ls', ['-al']);
+                 exec.exec('ls', [
                     '-al',
                     `${extract_dir}/sonar-scanner-${version}-${platform}`
                 ]);
-                sonarscanner_path = yield tc.cacheDir(path.join(sonarscanner_extracted_path, `sonar-scanner-${version}-${platform}`), sonarscanner_tool, version, platform);
+                sonarscanner_path =  tc.cacheDir(path.join(sonarscanner_extracted_path, `sonar-scanner-${version}-${platform}`), sonarscanner_tool, version, platform);
                 core.endGroup();
             }
             if (build_wrapper_path === '') {
                 core.startGroup(`🚀 Downloading Sonar Build Wrapper from ${build_wrapper_url}`);
                 const build_wrapper = `build-wrapper-${platform == 'windows' ? 'win' : platform}-x86`;
-                const build_wrapper_zip_path = yield tc.downloadTool(`${build_wrapper_url}/static/cpp/${build_wrapper}.zip`);
-                const build_wrapper_extracted_path = yield (0, utils_1.extractZip)(build_wrapper_zip_path, extract_dir);
-                build_wrapper_path = yield tc.cacheDir(path.join(build_wrapper_extracted_path, build_wrapper), build_wrapper_tool, version, platform);
+                const build_wrapper_zip_path =  tc.downloadTool(`${build_wrapper_url}/static/cpp/${build_wrapper}.zip`);
+                const build_wrapper_extracted_path =  (0, utils_1.extractZip)(build_wrapper_zip_path, extract_dir);
+                build_wrapper_path =  tc.cacheDir(path.join(build_wrapper_extracted_path, build_wrapper), build_wrapper_tool, version, platform);
                 core.endGroup();
             }
             console.log('📝 Applying global configuration parameters');
@@ -21977,7 +21977,7 @@
             core.setOutput('build-wrapper', build_wrapper_bin);
             core.endGroup();
             console.log('✅ Sonar Scanner and Build Wrapper are now ready to be used!');
-        });
+     //   });
     }
     exports.prepareEnvironment = prepareEnvironment;
     
