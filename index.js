@@ -22055,7 +22055,6 @@
      * - Run Sonar Scanner
      */
     function scan() {
-        return __awaiter(this, void 0, void 0, function* () {
             const sonar_properties = core.getInput('config');
             const version = core.getInput('version') || undefined;
             const build_wrapper = core.getInput('build-wrapper') || undefined;
@@ -22099,7 +22098,6 @@
                 }
             }
             console.log('✅ Scan performed successfully!');
-        });
     }
     exports.scan = scan;
     function emitAnnotations() {
