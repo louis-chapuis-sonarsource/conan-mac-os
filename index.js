@@ -21894,7 +21894,7 @@
             const platform = getCliPlatform((0, utils_1.getRunnerOS)());
             const max_keys = 2000;
             // TODO: Increase max-keys if for some reason
-            const { stdout: versions } = yield exec.getExecOutput('curl', [
+            const { stdout: versions } =  exec.getExecOutput('curl', [
                 '-sSL',
                 `${url}?prefix=Distribution/sonar-scanner-cli/&max-keys=${max_keys}`
             ]);
