@@ -3873,7 +3873,7 @@
      * @param arch          architecture of the tool.  Optional.  Defaults to machine architecture
      */
     function cacheDir(sourceDir, tool, version, arch) {
-   //     return __awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             version = semver.clean(version) || version;
             arch = arch || os.arch();
             core.debug(`Caching tool ${tool} ${version} ${arch}`);
@@ -3882,17 +3882,17 @@
                 throw new Error('sourceDir is not a directory');
             }
             // Create the tool dir
-            const destPath =  _createToolPath(tool, version, arch);
+            const destPath = yield _createToolPath(tool, version, arch);
             // copy each child item. do not move. move can fail on Windows
             // due to anti-virus software having an open handle on a file.
             for (const itemName of fs.readdirSync(sourceDir)) {
                 const s = path.join(sourceDir, itemName);
-                 io.cp(s, destPath, { recursive: true });
+                yield io.cp(s, destPath, { recursive: true });
             }
             // write .complete
             _completeToolPath(tool, version, arch);
             return destPath;
-       // });
+        });
     }
     exports.cacheDir = cacheDir;
     /**
@@ -3906,7 +3906,7 @@
      * @param arch          architecture of the tool.  Optional.  Defaults to machine architecture
      */
     function cacheFile(sourceFile, targetFile, tool, version, arch) {
-     //   return __awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             version = semver.clean(version) || version;
             arch = arch || os.arch();
             core.debug(`Caching tool ${tool} ${version} ${arch}`);
@@ -3915,16 +3915,16 @@
                 throw new Error('sourceFile is not a file');
             }
             // create the tool dir
-            const destFolder =  _createToolPath(tool, version, arch);
+            const destFolder = yield _createToolPath(tool, version, arch);
             // copy instead of move. move can fail on Windows due to
             // anti-virus software having an open handle on a file.
             const destPath = path.join(destFolder, targetFile);
             core.debug(`destination file ${destPath}`);
-             io.cp(sourceFile, destPath);
+            yield io.cp(sourceFile, destPath);
             // write .complete
             _completeToolPath(tool, version, arch);
             return destFolder;
-       // });
+        });
     }
     exports.cacheFile = cacheFile;
     /**
@@ -3990,7 +3990,7 @@
     }
     exports.findAllVersions = findAllVersions;
     function getManifestFromRepo(owner, repo, auth, branch = 'master') {
-        //return __awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             let releases = [];
             const treeUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}`;
             const http = new httpm.HttpClient('tool-cache');
@@ -3999,7 +3999,7 @@
                 core.debug('set auth');
                 headers.authorization = auth;
             }
-            const response =  http.getJson(treeUrl, headers);
+            const response = yield http.getJson(treeUrl, headers);
             if (!response.result) {
                 return releases;
             }
@@ -4011,7 +4011,7 @@
                 }
             }
             headers['accept'] = 'application/vnd.github.VERSION.raw';
-            let versionsRaw =  ( http.get(manifestUrl, headers)).readBody();
+            let versionsRaw = yield (yield http.get(manifestUrl, headers)).readBody();
             if (versionsRaw) {
                 // shouldn't be needed but protects against invalid json saved with BOM
                 versionsRaw = versionsRaw.replace(/^\uFEFF/, '');
@@ -4023,37 +4023,37 @@
                 }
             }
             return releases;
-      //  });
+        });
     }
     exports.getManifestFromRepo = getManifestFromRepo;
     function findFromManifest(versionSpec, stable, manifest, archFilter = os.arch()) {
-      //  return __awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             // wrap the internal impl
-            const match =  mm._findMatch(versionSpec, stable, manifest, archFilter);
+            const match = yield mm._findMatch(versionSpec, stable, manifest, archFilter);
             return match;
-    //    });
+        });
     }
     exports.findFromManifest = findFromManifest;
     function _createExtractFolder(dest) {
-       // return __awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (!dest) {
                 // create a temp dir
                 dest = path.join(_getTempDirectory(), v4_1.default());
             }
-             io.mkdirP(dest);
+            yield io.mkdirP(dest);
             return dest;
-     //   });
+        });
     }
     function _createToolPath(tool, version, arch) {
-      //  return __awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const folderPath = path.join(_getCacheDirectory(), tool, semver.clean(version) || version, arch || '');
             core.debug(`destination ${folderPath}`);
             const markerPath = `${folderPath}.complete`;
-             io.rmRF(folderPath);
-             io.rmRF(markerPath);
-             io.mkdirP(folderPath);
+            yield io.rmRF(folderPath);
+            yield io.rmRF(markerPath);
+            yield io.mkdirP(folderPath);
             return folderPath;
-      //  });
+        });
     }
     function _completeToolPath(tool, version, arch) {
         const folderPath = path.join(_getCacheDirectory(), tool, semver.clean(version) || version, arch || '');
@@ -21856,8 +21856,8 @@
      * @returns AWS bucket URL
      */
     function getDownloadURL(base_url) {
-        //return __awaiter(this, void 0, void 0, function* () {
-            const { stdout: bucket } =  exec.getExecOutput('curl', ['-sSL', base_url]);
+        return __awaiter(this, void 0, void 0, function* () {
+            const { stdout: bucket } = yield exec.getExecOutput('curl', ['-sSL', base_url]);
             const bucket_re = /\s{2}var\sBUCKET_URL\s=\s'(.*)';.*/;
             for (const line of bucket.split(/\r?\n/)) {
                 const match = bucket_re.exec(line);
@@ -21867,7 +21867,7 @@
                 return match[1];
             }
             throw new Error('Unable to determine download URL for the Sonar CLI.');
-       // });
+        });
     }
     exports.getDownloadURL = getDownloadURL;
     function getCliPlatform(runner_os) {
@@ -21890,11 +21890,11 @@
      * @returns URL to download the Sonar CLI
      */
     function getCliVersionURL(url) {
-        //return __awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const platform = getCliPlatform((0, utils_1.getRunnerOS)());
             const max_keys = 2000;
             // TODO: Increase max-keys if for some reason
-            const { stdout: versions } = exec.getExecOutput('curl', [
+            const { stdout: versions } = yield exec.getExecOutput('curl', [
                 '-sSL',
                 `${url}?prefix=Distribution/sonar-scanner-cli/&max-keys=${max_keys}`
             ]);
@@ -21914,7 +21914,7 @@
                 return [match[0], platform, match[1]];
             }
             throw new Error('Unable to determine the download URL for the latest version');
-       // });
+        });
     }
     exports.getCliVersionURL = getCliVersionURL;
     /**
