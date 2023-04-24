@@ -21857,7 +21857,7 @@
      */
     function getDownloadURL(base_url) {
        // return __awaiter(this, void 0, void 0, function* () {
-            const { stdout: bucket } = yield exec.getExecOutput('curl', ['-sSL', base_url]);
+            const { stdout: bucket } =  exec.getExecOutput('curl', ['-sSL', base_url]);
             const bucket_re = /\s{2}var\sBUCKET_URL\s=\s'(.*)';.*/;
             for (const line of bucket.split(/\r?\n/)) {
                 const match = bucket_re.exec(line);
