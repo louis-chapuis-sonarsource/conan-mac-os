@@ -22033,7 +22033,8 @@
     Object.defineProperty(exports, "__esModule", ({ value: true }));
     exports.scan = void 0;
     const core = __importStar(__nccwpck_require__(2186));
-    const exec = __importStar(__nccwpck_require__(1514));
+    //const exec = __importStar(__nccwpck_require__(1514));
+    const exec = require('@actions/exec');
     const github = __importStar(__nccwpck_require__(5438));
     const os_1 = __nccwpck_require__(2037);
     const utils_1 = __nccwpck_require__(1314);
