@@ -21787,7 +21787,7 @@
             }
         });
     }
-    run();
+    yield run();
     const options = {};
     options.shell = '/bin/bash'
     require('child_process').execSync("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86 --out-dir build_wrapper_output_dir conan build hellopkg" , options);
