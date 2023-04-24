@@ -44,6 +44,7 @@ jobs:
         run: |
           conan install hellopkg
           $HOME/.sonar/build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output conan build hellopkg
+          npm install @actions/exec
 
       - name: Run Sonar Scan
         uses: ./
