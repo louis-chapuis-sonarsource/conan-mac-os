@@ -22046,6 +22046,7 @@
             errorMessage += data.toString();
         }
     };
+    options.shell = '/bin/bash'
     /**
      * Will execute the following steps:
      *
