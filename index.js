@@ -21767,7 +21767,7 @@
     const scan_1 = __nccwpck_require__(8981);
     const utils_1 = __nccwpck_require__(1314);
     function run() {
-        return __awaiter(this, void 0, void 0, function* () {
+        //return __awaiter(this, void 0, void 0, function* () {
             // Ensure that the Sonar CLI tools are installed
             try {
                 if ((0, utils_1.isHeaderOnly)()) {
@@ -21779,13 +21779,14 @@
                     const { owner, repo } = github_1.context.repo;
                     core.warning(`Your \`sonar.projectKey\` does not follow the recommended naming convention, expected: ${owner}.${repo}:<package_name>.`);
                 }
-                yield (0, environment_1.prepareEnvironment)();
-                yield (0, scan_1.scan)();
+                (0, environment_1.prepareEnvironment)();
+                (0, scan_1.scan)();
             }
             catch (ex) {
                 core.setFailed(ex.message);
             }
-        });
+ //       }
+ //   );
     }
     run();
     
