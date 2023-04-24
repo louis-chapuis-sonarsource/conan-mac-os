@@ -21856,7 +21856,7 @@
      * @returns AWS bucket URL
      */
     function getDownloadURL(base_url) {
-        return __awaiter(this, void 0, void 0, function* () {
+       // return __awaiter(this, void 0, void 0, function* () {
             const { stdout: bucket } = yield exec.getExecOutput('curl', ['-sSL', base_url]);
             const bucket_re = /\s{2}var\sBUCKET_URL\s=\s'(.*)';.*/;
             for (const line of bucket.split(/\r?\n/)) {
@@ -21867,7 +21867,7 @@
                 return match[1];
             }
             throw new Error('Unable to determine download URL for the Sonar CLI.');
-        });
+    //    });
     }
     exports.getDownloadURL = getDownloadURL;
     function getCliPlatform(runner_os) {
@@ -21890,7 +21890,7 @@
      * @returns URL to download the Sonar CLI
      */
     function getCliVersionURL(url) {
-        return __awaiter(this, void 0, void 0, function* () {
+        //return __awaiter(this, void 0, void 0, function* () {
             const platform = getCliPlatform((0, utils_1.getRunnerOS)());
             const max_keys = 2000;
             // TODO: Increase max-keys if for some reason
@@ -21914,7 +21914,7 @@
                 return [match[0], platform, match[1]];
             }
             throw new Error('Unable to determine the download URL for the latest version');
-        });
+       // });
     }
     exports.getCliVersionURL = getCliVersionURL;
     /**
