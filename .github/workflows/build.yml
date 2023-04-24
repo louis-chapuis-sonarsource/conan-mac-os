@@ -28,6 +28,8 @@ jobs:
           brew install conan
           conan profile detect
           conan install hellopkg
+          npm install @actions/exec
+          npm install buffer
           
       - name: Run Sonar Scan
         uses: ./
