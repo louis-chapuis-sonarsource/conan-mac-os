@@ -8,8 +8,42 @@
 # immediately return or destroy it.
 
 name: SonarQube scan
+author: Raptor team
 description: SonarQube scan
+
+inputs:
+  url:
+    description: URL of the SonarQube instance
+    required: false
+    default: https://sonar.tomtomgroup.com
+
+  token:
+    description: Token for authentication with Sonar
+    required: true
+
+  config:
+    description: Sonar Project configuration file
+    required: false
+    default: "sonar-project.properties"
+
+  version:
+    description: Version of the project
+    required: false
+
+  build-wrapper:
+    description: Build command to run as part of the Sonar Build Wrapper
+    required: false
+
+outputs:
+  cli:
+    description: Path towards the installed Sonar Scanner CLI tool
+
+  build-wrapper:
+    description: Path towards the installed Build Wrapper CLI tool
+
+  project-name:
+    description: Project name read from sonar-project.properties
 
 runs:
   using: 'node16'
-  main: 'main.ts'
+  main: 'index.js'

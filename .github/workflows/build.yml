@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - node-wrapper
+      - test
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -26,28 +27,15 @@ jobs:
         run: |
           brew install conan
           conan profile detect
-          
-      - name: Download and install the build wrapper
-        run: |
-          mkdir ../.sonar
-          curl -sSLo ../.sonar/build-wrapper-macosx-x86.zip ${{ secrets.SONAR_HOST_URL }}/static/cpp/build-wrapper-macosx-x86.zip
-          unzip -o ../.sonar/build-wrapper-macosx-x86.zip -d ../.sonar/
-        env:
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
- 
-      - name: Download and install the SonarScanner
-        run: |
-          curl -sSLo ../.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-macosx.zip
-          unzip -o ../.sonar/sonar-scanner.zip -d ../.sonar/
-
-      - name: Run BW
-        run: |
           conan install hellopkg
-          npm install @actions/exec
-          npm install buffer
-
+          
       - name: Run Sonar Scan
         uses: ./
+        with:
+          build-wrapper: conan build hellopkg
+          config: sonar-project.properties
+          token: ${{ secrets.SONAR_TOKEN }}
+          url: ${{ secrets.SONAR_HOST_URL }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
