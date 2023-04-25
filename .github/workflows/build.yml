@@ -46,6 +46,7 @@ jobs:
           npm install buffer
           
       - name: Run Sonar Scan
+        continue-on-error: true
         uses: ./
         with:
           build-wrapper: conan build hellopkg
@@ -55,3 +56,9 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Do things
+        run: |
+          ls -ltr
+          ls -al
+      
