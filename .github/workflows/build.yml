@@ -6,6 +6,7 @@ on:
       - main
       - node-wrapper
       - test
+      - bin
   pull_request:
     types: [opened, synchronize, reopened]
 
