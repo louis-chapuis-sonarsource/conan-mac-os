@@ -21968,9 +21968,9 @@
             console.log('Setting execution permissions');
             const sonarscanner_bin = path.join(sonarscanner_path, 'bin', (0, utils_1.sonarScanner)());
             const build_wrapper_bin = path.join(build_wrapper_path, (0, utils_1.buildWrapper)());
-            //fs.chmodSync(sonarscanner_bin, 0o750);
-            //fs.chmodSync(path.join(sonarscanner_path, 'jre', 'bin', (0, utils_1.java)()), 0o750);
-            //fs.chmodSync(build_wrapper_bin, 0o750);
+            fs.chmodSync(sonarscanner_bin, 0o755);
+            fs.chmodSync(path.join(sonarscanner_path, 'jre', 'bin', (0, utils_1.java)()), 0o755);
+            fs.chmodSync(build_wrapper_bin, 0o755);
             console.log('Configuration output parameters');
             core.setOutput('cli', sonarscanner_bin);
             core.setOutput('build-wrapper', build_wrapper_bin);
