@@ -22081,7 +22081,8 @@
             // Run the sonar scanner
             core.startGroup('🔍 Scanning project...');
             try {
-                yield exec.exec((0, utils_1.sonarScanner)(), [`-Dproject.settings=${sonar_properties}`], options);
+                //yield exec.exec((0, utils_1.sonarScanner)(), [`-Dproject.settings=${sonar_properties}`], options);
+                yield exec.exec("../.sonar/sonar-scanner-4.6.2.2472-macosx/bin/sonar-scanner", [`-Dproject.settings=${sonar_properties}`], options);
             }
             catch (_b) {
                 (0, utils_1.handleScanError)(errorMessage);
