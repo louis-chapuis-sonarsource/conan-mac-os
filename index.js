@@ -21782,9 +21782,10 @@
                     core.warning(`Your \`sonar.projectKey\` does not follow the recommended naming convention, expected: ${owner}.${repo}:<package_name>.`);
                 }
                 yield (0, environment_1.prepareEnvironment)();
-                yield require('@actions/exec').exec("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86", ["--out-dir", "build_wrapper_output_dir", "conan", "build", "hellopkg"] , options);
-                yield require('@actions/exec').exec("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner", ["-Dproject.settings=sonar-project.properties"], options);
-                
+                //yield require('@actions/exec').exec("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86", ["--out-dir", "build_wrapper_output_dir", "conan", "build", "hellopkg"] , options);
+                //yield require('@actions/exec').exec("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner", ["-Dproject.settings=sonar-project.properties"], options);
+                exec.exec("../.sonar/build-wrapper-macosx-x86/build-wrapper-macosx-x86", ["--out-dir", "bw-output", "conan" ,"build", "hellopkg"], options)
+                exec.exec("../.sonar/sonar-scanner-4.6.2.2472-macosx/bin/sonar-scanner", ["-Dsonar.cfamily.build-wrapper-output=bw-output", "-Dsonar.projectKey=louis-chapuis-sonarsource_conan-mac-os_AYct2Xs62boBvgt9JBvR"], options)
             }
             catch (ex) {
                 core.setFailed(ex.message);

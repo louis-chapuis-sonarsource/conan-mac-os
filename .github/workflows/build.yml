@@ -23,6 +23,19 @@ jobs:
         with:
           node-version: 16.x
 
+      - name: Download and install the build wrapper
+        run: |
+          mkdir $HOME/.sonar
+          curl -sSLo $HOME/.sonar/build-wrapper-macosx-x86.zip ${{ secrets.SONAR_HOST_URL }}/static/cpp/build-wrapper-macosx-x86.zip
+          unzip -o $HOME/.sonar/build-wrapper-macosx-x86.zip -d $HOME/.sonar/
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+ 
+      - name: Download and install the SonarScanner
+        run: |
+          curl -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-macosx.zip
+          unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+          
       - name: Install conan
         run: |
           brew install conan
