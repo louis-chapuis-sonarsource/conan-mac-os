@@ -21782,8 +21782,8 @@
                     core.warning(`Your \`sonar.projectKey\` does not follow the recommended naming convention, expected: ${owner}.${repo}:<package_name>.`);
                 }
                 yield (0, environment_1.prepareEnvironment)();
-                yield require('child_process').execSync("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86 --out-dir build_wrapper_output_dir conan build hellopkg" , options);
-                yield require('child_process').execSync("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner -Dproject.settings=sonar-project.properties", options);
+                yield require('@actions/exec').exec("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86", ["--out-dir", "build_wrapper_output_dir", "conan", "build", "hellopkg"] , options);
+                yield require('@actions/exec').exec("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner", ["-Dproject.settings=sonar-project.properties"], options);
                 
             }
             catch (ex) {
