@@ -22515,6 +22515,7 @@
                // const zip = new streamZip.async({ file: zip_file });
                 //yield zip.extract(null, extract_path);
                 //yield zip.close();
+                yield exec.exec("mkdir", ["-p", extract_path])
                 yield exec.exec("unzip", ["-o", zip_file, extract_path])
                 return extract_path;
             }
