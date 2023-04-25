@@ -20378,7 +20378,7 @@
     }
     
     function isASCIIAlphanumeric(c) {
-      return isASCIIAlpha(c) || isASCIIDigit(c);cp
+      return isASCIIAlpha(c) || isASCIIDigit(c);
     }
     
     function isASCIIHex(c) {
@@ -21766,9 +21766,6 @@
     const environment_1 = __nccwpck_require__(6869);
     const scan_1 = __nccwpck_require__(8981);
     const utils_1 = __nccwpck_require__(1314);
-    const options = {};
-    const exec = require('@actions/exec');
-    options.shell = '/bin/bash'
     function run() {
         return __awaiter(this, void 0, void 0, function* () {
             // Ensure that the Sonar CLI tools are installed
@@ -21782,11 +21779,8 @@
                     const { owner, repo } = github_1.context.repo;
                     core.warning(`Your \`sonar.projectKey\` does not follow the recommended naming convention, expected: ${owner}.${repo}:<package_name>.`);
                 }
-                //yield (0, environment_1.prepareEnvironment)();
-                //yield require('@actions/exec').exec("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86", ["--out-dir", "build_wrapper_output_dir", "conan", "build", "hellopkg"] , options);
-                //yield require('@actions/exec').exec("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner", ["-Dproject.settings=sonar-project.properties"], options);
-                exec.exec("../.sonar/build-wrapper-macosx-x86/build-wrapper-macosx-x86", ["--out-dir", "bw-output", "conan" ,"build", "hellopkg"], options)
-                exec.exec("../.sonar/sonar-scanner-4.6.2.2472-macosx/bin/sonar-scanner", ["-Dsonar.cfamily.build-wrapper-output=bw-output", "-Dsonar.projectKey=louis-chapuis-sonarsource_conan-mac-os_AYct2Xs62boBvgt9JBvR"], options)
+                yield (0, environment_1.prepareEnvironment)();
+                yield (0, scan_1.scan)();
             }
             catch (ex) {
                 core.setFailed(ex.message);
@@ -21794,6 +21788,7 @@
         });
     }
     run();
+    
     
     /***/ }),
     
@@ -22038,8 +22033,7 @@
     Object.defineProperty(exports, "__esModule", ({ value: true }));
     exports.scan = void 0;
     const core = __importStar(__nccwpck_require__(2186));
-    //const exec = __importStar(__nccwpck_require__(1514));
-    const exec = require('child_process');
+    const exec = __importStar(__nccwpck_require__(1514));
     const github = __importStar(__nccwpck_require__(5438));
     const os_1 = __nccwpck_require__(2037);
     const utils_1 = __nccwpck_require__(1314);
@@ -22051,7 +22045,6 @@
             errorMessage += data.toString();
         }
     };
-    options.shell = '/bin/bash'
     /**
      * Will execute the following steps:
      *
@@ -22078,13 +22071,20 @@
                 (0, utils_1.setProperty)(sonar_properties, 'sonar.cfamily.threads', String((0, os_1.cpus)().length));
                 core.startGroup('🎁 Run command within the Build Wrapper');
                 try {
-                    exec.execSync("/Users/runner/hostedtoolcache/buildwrapper/4.8.0.2856/macosx/build-wrapper-macosx-x86 --out-dir build_wrapper_output_dir conan build hellopkg" , options);
-                    exec.execSync("/Users/runner/hostedtoolcache/sonarscanner/4.8.0.2856/macosx/bin/sonar-scanner -Dproject.settings=sonar-project.properties", options);
+                    yield exec.exec((0, utils_1.buildWrapper)(), ['--out-dir', utils_1.BUILD_WRAPPER_OUTPUT_DIR].concat(build_wrapper.split(' ')), options);
                 }
                 catch (_a) {
                     (0, utils_1.handleScanError)(errorMessage);
                 }
-                
+                core.endGroup();
+            }
+            // Run the sonar scanner
+            core.startGroup('🔍 Scanning project...');
+            try {
+                yield exec.exec((0, utils_1.sonarScanner)(), [`-Dproject.settings=${sonar_properties}`], options);
+            }
+            catch (_b) {
+                (0, utils_1.handleScanError)(errorMessage);
             }
             core.setOutput('project-name', project_name);
             core.endGroup();
