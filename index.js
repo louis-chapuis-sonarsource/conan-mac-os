@@ -21910,7 +21910,7 @@
                 if (!match) {
                     continue;
                 }
-                return [match[0], platform, '4.6.2.2472'];
+                return [match[0], platform, match[1]];
             }
             throw new Error('Unable to determine the download URL for the latest version');
         });
@@ -21968,9 +21968,9 @@
             console.log('Setting execution permissions');
             const sonarscanner_bin = path.join(sonarscanner_path, 'bin', (0, utils_1.sonarScanner)());
             const build_wrapper_bin = path.join(build_wrapper_path, (0, utils_1.buildWrapper)());
-            fs.chmodSync(sonarscanner_bin, 0o755);
-            fs.chmodSync(path.join(sonarscanner_path, 'jre', 'bin', (0, utils_1.java)()), 0o755);
-            fs.chmodSync(build_wrapper_bin, 0o755);
+            fs.chmodSync(sonarscanner_bin, 0o750);
+            fs.chmodSync(path.join(sonarscanner_path, 'jre', 'bin', (0, utils_1.java)()), 0o750);
+            fs.chmodSync(build_wrapper_bin, 0o750);
             console.log('Configuration output parameters');
             core.setOutput('cli', sonarscanner_bin);
             core.setOutput('build-wrapper', build_wrapper_bin);
@@ -22082,7 +22082,6 @@
             core.startGroup('🔍 Scanning project...');
             try {
                 yield exec.exec((0, utils_1.sonarScanner)(), [`-Dproject.settings=${sonar_properties}`], options);
-                //yield exec.exec("../.sonar/sonar-scanner-4.6.2.2472-macosx/bin/sonar-scanner", [`-Dproject.settings=${sonar_properties}`], options);
             }
             catch (_b) {
                 (0, utils_1.handleScanError)(errorMessage);
@@ -22372,6 +22371,7 @@
     const streamZip = __importStar(__nccwpck_require__(8119));
     const glob_1 = __nccwpck_require__(1957);
     const github_1 = __nccwpck_require__(5438);
+    const exec = __importStar(__nccwpck_require__(1514));
     exports.BUILD_WRAPPER_OUTPUT_DIR = 'build_wrapper_output_dir';
     function getSonarInstanceURL() {
         return core.getInput('url').replace(/\/+$/, '');
@@ -22512,9 +22512,10 @@
             try {
                 console.log(`Extracting file '${zip_file}'...`);
                 const extract_path = requested_extract_path || '.';
-                const zip = new streamZip.async({ file: zip_file });
-                yield zip.extract(null, extract_path);
-                yield zip.close();
+               // const zip = new streamZip.async({ file: zip_file });
+                //yield zip.extract(null, extract_path);
+                //yield zip.close();
+                yield exec.exec("unzip", ["-o", zip_file, extract_path])
                 return extract_path;
             }
             catch (ex) {
