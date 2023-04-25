@@ -22516,7 +22516,7 @@
                 //yield zip.extract(null, extract_path);
                 //yield zip.close();
                 yield exec.exec("mkdir", ["-p", extract_path])
-                yield exec.exec("unzip", ["-o", zip_file, extract_path])
+                yield exec.exec("unzip", ["-o", zip_file, "-d", extract_path])
                 return extract_path;
             }
             catch (ex) {
